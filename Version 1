@@ -1,0 +1,76 @@
+int ena = 9;
+int ma1 = 8;
+int ma2 = 7;
+
+int enb = 6;
+int mb1 = 4;
+int mb2 = 5;
+
+void setup() {
+  pinMode(10,INPUT);
+  pinMode(11,INPUT);
+
+  pinMode(ena , OUTPUT);
+  pinMode(ma1 , OUTPUT);
+  pinMode(ma2 , OUTPUT);
+
+  pinMode(enb , OUTPUT);
+  pinMode(mb1 , OUTPUT);
+  pinMode(mb2 , OUTPUT);
+  
+  Serial.begin(9600);
+}
+void turn_right(){
+  analogWrite(ena , 55);
+  digitalWrite(ma1 , LOW);
+  digitalWrite(ma2 , HIGH);
+
+  analogWrite(enb , 55);
+  digitalWrite(mb1 , LOW);
+  digitalWrite(mb2 , LOW);
+}
+void turn_left(){
+  analogWrite(ena , 55);
+  digitalWrite(ma1 , LOW);
+  digitalWrite(ma2 , LOW);
+
+  analogWrite(enb , 55);
+  digitalWrite(mb1 , LOW);
+  digitalWrite(mb2 , HIGH);
+}
+void go_straight(){
+  analogWrite(ena , 65);
+  digitalWrite(ma1 , LOW);
+  digitalWrite(ma2 , HIGH);
+
+  analogWrite(enb , 65);
+  digitalWrite(mb1 , LOW);
+  digitalWrite(mb2 , HIGH);
+}
+void stop(){
+  analogWrite(ena , 0);
+  digitalWrite(ma1 , LOW);
+  digitalWrite(ma2 , LOW);
+
+  analogWrite(enb , 0);
+  digitalWrite(mb1 , LOW);
+  digitalWrite(mb2 , LOW);
+}
+void loop() {
+
+  int r = digitalRead(10);
+  int l = digitalRead(11);
+  if(l == 1 && r == 0){
+    Serial.println("go");
+    go_straight();
+  }else if(l == 0 && r == 0){
+    Serial.println("left");
+    turn_left();
+  }else if(l == 0 && r == 1){
+    turn_right();
+    Serial.println("right");
+  }else{
+    Serial.println("stop");
+    stop();
+  }
+}
